@@ -4,9 +4,10 @@ from lecteur_cb_interface import LecteurCbInterface, CarteDétectée
 
 
 class FakeLecteurCb(LecteurCbInterface):
-    __callback: Callable[[CarteDétectée], None] = None
-    __ordres_debit = []
-    
+    def __init__(self):
+        self.__ordres_debit = []
+        self.__callback: Callable[[CarteDétectée], None] = None
+
     def register(self, callback: Callable[[CarteDétectée], None]):
         self.__callback = callback
 
@@ -31,3 +32,6 @@ class OrdreDébit:
     def __init__(self, montant_en_centimes, validé):
         self.montant_en_centimes = montant_en_centimes
         self.validé = validé
+
+    def __str__(self):
+        return f"Validé:{self.validé} pour {self.montant_en_centimes}cts"

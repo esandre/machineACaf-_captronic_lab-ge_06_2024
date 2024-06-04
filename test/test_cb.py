@@ -30,3 +30,14 @@ class ServiceTest(MachineACaféMatchers):
 
         # ALORS l'ordre de couler un café n'est pas envoyé
         self.assertNombreCafésServis(0, machine)
+
+    def test_defaillante(self):
+        # ETANT DONNE une machine à café munie d'un lecteur CB
+        machine = MachineACaféBuilder().défaillante().ayant_un_lecteur_cb().build()
+
+        # QUAND on présente cette carte
+        machine.simuler_présentation_carte(solvable=True)
+
+        # ALORS aucun ordre de débit n'est effectué
+        ordres = machine.get_ordres_débit()
+        self.assertSequenceEqual([], ordres)
