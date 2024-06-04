@@ -8,9 +8,8 @@ class ServiceTest(MachineACaféMatchers):
         machine = MachineACaféBuilder().ayant_un_lecteur_cb().build()
 
         # ET une carte solvable
-
         # QUAND on présente cette carte
-        machine.simuler_présentation_carte()
+        machine.simuler_présentation_carte(solvable=True)
 
         # ALORS l'ordre de couler un café est envoyé
         self.assertNombreCafésServis(1, machine)
@@ -21,3 +20,13 @@ class ServiceTest(MachineACaféMatchers):
         montant = 70
         self.assertEqual(montant, ordre_débit.montant_en_centimes)
         self.assertTrue(ordre_débit.validé)
+
+    def test_insolvable(self):
+        # ETANT DONNE une machine à café munie d'un lecteur CB
+        machine = MachineACaféBuilder().ayant_un_lecteur_cb().build()
+
+        # QUAND on présente cette carte
+        machine.simuler_présentation_carte(solvable=False)
+
+        # ALORS l'ordre de couler un café n'est pas envoyé
+        self.assertNombreCafésServis(0, machine)

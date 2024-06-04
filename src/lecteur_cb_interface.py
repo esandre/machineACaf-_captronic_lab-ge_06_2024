@@ -4,7 +4,7 @@ from typing import Callable
 
 class CarteDétectée(abc.ABC):
     @abc.abstractmethod
-    def tenter_debit(self, somme):
+    def tenter_debit(self, somme) -> bool:
         pass
 
 

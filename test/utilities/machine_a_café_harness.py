@@ -25,8 +25,8 @@ class MachineACaféHarness(MachineACaféInterface):
     def nombre_appels_a_couler_un_café(self):
         return self.__hardwareSpy.nombre_appels_a_couler_un_café()
 
-    def simuler_présentation_carte(self):
-        return self.__lecteur_cb_fake.simuler_présentation_carte()
+    def simuler_présentation_carte(self, solvable):
+        return self.__lecteur_cb_fake.simuler_présentation_carte(solvable)
 
     def get_ordres_débit(self):
         return self.__lecteur_cb_fake.get_ordres_debit()

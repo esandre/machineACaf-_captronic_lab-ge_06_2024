@@ -10,19 +10,21 @@ class FakeLecteurCb(LecteurCbInterface):
     def register(self, callback: Callable[[CarteDétectée], None]):
         self.__callback = callback
 
-    def simuler_présentation_carte(self):
-        self.__callback(FakeCarteDétectée(self.__ordres_debit))
+    def simuler_présentation_carte(self, solvable):
+        self.__callback(FakeCarteDétectée(self.__ordres_debit, solvable))
 
     def get_ordres_debit(self):
         return self.__ordres_debit
 
 
 class FakeCarteDétectée(CarteDétectée):
-    def __init__(self, ordres):
+    def __init__(self, ordres, solvable):
+        self.__solvable = solvable
         self.__ordres = ordres
 
     def tenter_debit(self, somme):
-        self.__ordres.append(OrdreDébit(somme, True))
+        self.__ordres.append(OrdreDébit(somme, self.__solvable))
+        return self.__solvable
 
 
 class OrdreDébit:

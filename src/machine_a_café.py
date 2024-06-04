@@ -14,8 +14,9 @@ class MachineACafé(machine_a_café_interface.MachineACaféInterface):
         lecteur_cb.register(self.__débiter)
 
     def __débiter(self, carte: CarteDétectée):
-        carte.tenter_debit(70)
-        self.__hardware.couler_un_café()
+        succes = carte.tenter_debit(70)
+        if succes:
+            self.__hardware.couler_un_café()
 
     def insérer(self, montant):
         if montant < Pièce.UnEuro: return
