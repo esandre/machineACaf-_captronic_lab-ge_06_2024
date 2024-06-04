@@ -1,7 +1,8 @@
 import abc
+from typing import Callable
 
 
-class CarteDetecteeCallback(abc.ABC):
+class CarteDétectée(abc.ABC):
     @abc.abstractmethod
     def tenter_debit(self, somme):
         pass
@@ -9,5 +10,10 @@ class CarteDetecteeCallback(abc.ABC):
 
 class LecteurCbInterface(abc.ABC):
     @abc.abstractmethod
-    def register(self, callback: CarteDetecteeCallback):
+    def register(self, callback: Callable[[CarteDétectée], None]):
+        pass
+
+
+class AucunLecteurCb(LecteurCbInterface):
+    def register(self, callback: CarteDétectée):
         pass
