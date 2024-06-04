@@ -35,3 +35,7 @@ class OrdreDébit:
 
     def __str__(self):
         return f"Validé:{self.validé} pour {self.montant_en_centimes}cts"
+
+    def __eq__(self, other):
+        return (self.montant_en_centimes == other.montant_en_centimes
+                and self.validé == other.validé)
