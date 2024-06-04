@@ -7,12 +7,26 @@ from pièce import Pièce
 from functools import reduce
 from operator import add
 
+from utilities.hardware_défaillant import HardwareDéfaillant
+from utilities.hardware_quelconque import HardwareQuelconque
+
 
 class ServiceTest(unittest.TestCase):
 
+    def test_defaillante(self):
+        # ETANT DONNE une machine à café
+        machine = MachineACafé(HardwareDéfaillant())
+        somme_initiale = machine.somme_encaissée_en_centimes
+
+        # QUAND on insère une somme supérieure ou égale à 1€
+        machine.insérer(Pièce.UnEuro)
+
+        # ALORS l'argent est rendu
+        self.assertEqual(0, machine.somme_encaissée_en_centimes - somme_initiale)
+
     def test_pas_assez_argent(self):
         # ETANT DONNE une machine à café
-        machine = MachineACafé()
+        machine = MachineACafé(HardwareQuelconque())
         somme_initiale = machine.somme_encaissée_en_centimes
         nombre_cafés_initiaux = machine.nombre_cafés_servis
 
@@ -36,7 +50,7 @@ class ServiceTest(unittest.TestCase):
         for pièces_a_insérer in cas:
             with self.subTest(pièces_a_insérer):
                 # ETANT DONNE une machine à café
-                machine = MachineACafé()
+                machine = MachineACafé(HardwareQuelconque())
                 somme_initiale = machine.somme_encaissée_en_centimes
                 nombre_cafés_initiaux = machine.nombre_cafés_servis
 
