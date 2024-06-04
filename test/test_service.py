@@ -7,12 +7,12 @@ from pièce import Pièce
 from functools import reduce
 from operator import add
 
-from utilities.hardware_défaillant import HardwareDéfaillant
-from utilities.hardware_quelconque import HardwareQuelconque
+from utilities.hardware_pouvant_etre_surveillé import HardwareSpy
+from utilities.machine_a_cafe_matchers import MachineACaféMatchers
 from utilities.machine_a_café_builder import MachineACaféBuilder
 
 
-class ServiceTest(unittest.TestCase):
+class ServiceTest(MachineACaféMatchers):
 
     def test_defaillante(self):
         # ETANT DONNE une machine à café
@@ -29,15 +29,15 @@ class ServiceTest(unittest.TestCase):
 
     def test_pas_assez_argent(self):
         # ETANT DONNE une machine à café
-        machine = MachineACaféBuilder.par_defaut()
+        hardware = HardwareSpy()
+        machine = MachineACafé(hardware)
         somme_initiale = machine.somme_encaissée_en_centimes
-        nombre_cafés_initiaux = machine.nombre_cafés_servis
 
         # QUAND on insère une somme inférieure à 1€
         machine.insérer(Pièce.CinquanteCentimes)
 
         # ALORS l'ordre de couler un café n'est pas envoyé
-        self.assertEqual(0, machine.nombre_cafés_servis - nombre_cafés_initiaux)
+        self.assertFalse(hardware.couler_un_café_appelé())
 
         # ET l'argent est rendu
         self.assertEqual(0, machine.somme_encaissée_en_centimes - somme_initiale)
@@ -53,9 +53,9 @@ class ServiceTest(unittest.TestCase):
         for pièces_a_insérer in cas:
             with self.subTest(pièces_a_insérer):
                 # ETANT DONNE une machine à café
-                machine = MachineACaféBuilder.par_defaut()
+                hardware = HardwareSpy()
+                machine = MachineACafé(hardware)
                 somme_initiale = machine.somme_encaissée_en_centimes
-                nombre_cafés_initiaux = machine.nombre_cafés_servis
 
                 # QUAND on insère une somme supérieure ou égale à 1€, <n> fois
                 for pièce in pièces_a_insérer:
@@ -63,7 +63,7 @@ class ServiceTest(unittest.TestCase):
 
                 # ALORS l'ordre de couler un café est envoyé <n> fois
                 nombre_cafés_servis = len(pièces_a_insérer)
-                self.assertEqual(nombre_cafés_servis , machine.nombre_cafés_servis - nombre_cafés_initiaux)
+                self.assertNombreCafésServis(nombre_cafés_servis, hardware)
 
                 # ET le monnayeur contient l'argent
                 somme_totale = reduce(add, pièces_a_insérer)

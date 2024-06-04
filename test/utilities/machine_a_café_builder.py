@@ -1,6 +1,7 @@
 from machine_a_café import MachineACafé
-from utilities.hardware_défaillant import HardwareDéfaillant
-from utilities.hardware_quelconque import HardwareQuelconque
+from utilities.hardware_dummy import HardwareDummy
+from utilities.hardware_stub import HardwareStub
+from typing import Self
 
 
 class MachineACaféBuilder:
@@ -11,9 +12,9 @@ class MachineACaféBuilder:
         return MachineACaféBuilder().build()
 
     def build(self) -> MachineACafé:
-        hardware = HardwareDéfaillant() if self.__est_défaillante else HardwareQuelconque()
+        hardware = HardwareDummy() if self.__est_défaillante else HardwareStub()
         return MachineACafé(hardware)
 
-    def défaillante(self):
+    def défaillante(self) -> Self:
         self.__est_défaillante = True
         return self
