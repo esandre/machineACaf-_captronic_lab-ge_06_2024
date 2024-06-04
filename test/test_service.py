@@ -32,16 +32,15 @@ class ServiceTest(MachineACaféMatchers):
     def test_pas_assez_argent(self):
         # ETANT DONNE une machine à café
         machine = MachineACaféBuilder.par_defaut()
-        somme_initiale = machine.get_somme_encaissée_en_centimes()
 
         # QUAND on insère une somme inférieure à 1€
         machine.insérer(Pièce.CinquanteCentimes)
 
         # ALORS l'ordre de couler un café n'est pas envoyé
-        self.assertFalse(machine.couler_un_café_appelé())
+        self.assertNombreCafésServis(0, machine)
 
         # ET l'argent est rendu
-        self.assertEqual(0, machine.get_somme_encaissée_en_centimes() - somme_initiale)
+        self.assertAucuneSommeEncaissée(machine)
 
     def test_n_cafés(self):
         cas = [
