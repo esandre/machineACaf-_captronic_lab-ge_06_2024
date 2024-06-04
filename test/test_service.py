@@ -6,13 +6,13 @@ from machine_a_café import MachineACafé
 from pièce import Pièce
 from functools import reduce
 from operator import add
-from itertools import repeat
 
 
 class ServiceTest(unittest.TestCase):
     def test_n_cafés(self):
         cas = [
             [Pièce.UnEuro],
+            [Pièce.DeuxEuros],
             [Pièce.UnEuro, Pièce.UnEuro],
             list(itertools.repeat(Pièce.UnEuro, random.Random().randint(3, 20)))
         ]

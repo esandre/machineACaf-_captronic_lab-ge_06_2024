@@ -4,5 +4,5 @@ class MachineACafé:
         self.nombre_cafés_servis = 0
 
     def insérer(self, montant):
-        self.somme_encaissée_en_centimes += 100
+        self.somme_encaissée_en_centimes += montant
         self.nombre_cafés_servis += 1
