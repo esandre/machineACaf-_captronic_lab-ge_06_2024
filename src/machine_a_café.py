@@ -1,7 +1,8 @@
 class MachineACafé:
     def __init__(self):
-        self.somme_encaissée_en_centimes = 100
-        self.nombre_cafés_servis = 1
+        self.somme_encaissée_en_centimes = 0
+        self.nombre_cafés_servis = 0
 
     def insérer(self, montant):
-        pass
+        self.somme_encaissée_en_centimes += 100
+        self.nombre_cafés_servis += 1
