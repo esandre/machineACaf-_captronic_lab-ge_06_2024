@@ -1,2 +1,2 @@
 class Pièce:
-    UnEuro = None
+    UnEuro = 100
