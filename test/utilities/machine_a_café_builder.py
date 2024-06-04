@@ -1,5 +1,4 @@
 from machine_a_café import MachineACafé
-from machine_a_café_interface import MachineACaféInterface
 from utilities.hardware_dummy import HardwareDummy
 from utilities.hardware_spy import HardwareSpy
 from utilities.hardware_stub import HardwareStub
