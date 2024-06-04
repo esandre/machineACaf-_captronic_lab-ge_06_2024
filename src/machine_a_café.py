@@ -4,6 +4,9 @@ from pièce import Pièce
 
 
 class MachineACafé(machine_a_café_interface.MachineACaféInterface):
+    def get_somme_encaissée_en_centimes(self):
+        return self.somme_encaissée_en_centimes
+
     def __init__(self, hardware: HardwareInterface):
         self.somme_encaissée_en_centimes = 0
         self.__hardware = hardware

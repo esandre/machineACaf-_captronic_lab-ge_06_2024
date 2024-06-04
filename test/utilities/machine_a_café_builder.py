@@ -4,6 +4,8 @@ from utilities.hardware_dummy import HardwareDummy
 from utilities.hardware_stub import HardwareStub
 from typing import Self
 
+from utilities.machine_a_café_harness import MachineACaféHarness
+
 
 class MachineACaféBuilder:
     __est_défaillante = False
@@ -14,7 +16,7 @@ class MachineACaféBuilder:
 
     def build(self) -> MachineACaféInterface:
         hardware = HardwareDummy() if self.__est_défaillante else HardwareStub()
-        return MachineACafé(hardware)
+        return MachineACaféHarness(MachineACafé(hardware))
 
     def défaillante(self) -> Self:
         self.__est_défaillante = True
