@@ -9,6 +9,22 @@ from operator import add
 
 
 class ServiceTest(unittest.TestCase):
+
+    def test_pas_assez_argent(self):
+        # ETANT DONNE une machine à café
+        machine = MachineACafé()
+        somme_initiale = machine.somme_encaissée_en_centimes
+        nombre_cafés_initiaux = machine.nombre_cafés_servis
+
+        # QUAND on insère une somme inférieure à 1€
+        machine.insérer(Pièce.CinquanteCentimes)
+
+        # ALORS l'ordre de couler un café n'est pas envoyé
+        self.assertEqual(0, machine.nombre_cafés_servis - nombre_cafés_initiaux)
+
+        # ET l'argent est rendu
+        self.assertEqual(0, machine.somme_encaissée_en_centimes - somme_initiale)
+
     def test_n_cafés(self):
         cas = [
             [Pièce.UnEuro],
