@@ -7,7 +7,8 @@ from pièce import Pièce
 from functools import reduce
 from operator import add
 
-from utilities.hardware_pouvant_etre_surveillé import HardwareSpy
+from utilities.hardware_spy import HardwareSpy
+from utilities.hardware_stub import HardwareStub
 from utilities.machine_a_cafe_matchers import MachineACaféMatchers
 from utilities.machine_a_café_builder import MachineACaféBuilder
 
@@ -29,7 +30,7 @@ class ServiceTest(MachineACaféMatchers):
 
     def test_pas_assez_argent(self):
         # ETANT DONNE une machine à café
-        hardware = HardwareSpy()
+        hardware = HardwareSpy(HardwareStub())
         machine = MachineACafé(hardware)
         somme_initiale = machine.get_somme_encaissée_en_centimes()
 
@@ -53,7 +54,7 @@ class ServiceTest(MachineACaféMatchers):
         for pièces_a_insérer in cas:
             with self.subTest(pièces_a_insérer):
                 # ETANT DONNE une machine à café
-                hardware = HardwareSpy()
+                hardware = HardwareSpy(HardwareStub())
                 machine = MachineACafé(hardware)
                 somme_initiale = machine.get_somme_encaissée_en_centimes()
 

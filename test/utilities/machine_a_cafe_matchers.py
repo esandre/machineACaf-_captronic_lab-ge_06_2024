@@ -1,6 +1,6 @@
 import unittest
 
-from utilities.hardware_pouvant_etre_surveillé import HardwareSpy
+from utilities.hardware_spy import HardwareSpy
 
 
 class MachineACaféMatchers(unittest.TestCase):
