@@ -23,7 +23,8 @@ class MachineACafé(machine_a_café_interface.MachineACaféInterface):
 
         self.__hardware.couler_un_café()
 
-    def insérer(self, montant):
+    def insérer(self, montant: Pièce):
+        if not Pièce.valide(montant): raise Exception()
         if montant < Pièce.UnEuro: return
         if self.__hardware.est_defaillant(): return
 
