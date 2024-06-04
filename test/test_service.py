@@ -9,13 +9,16 @@ from operator import add
 
 from utilities.hardware_défaillant import HardwareDéfaillant
 from utilities.hardware_quelconque import HardwareQuelconque
+from utilities.machine_a_café_builder import MachineACaféBuilder
 
 
 class ServiceTest(unittest.TestCase):
 
     def test_defaillante(self):
         # ETANT DONNE une machine à café
-        machine = MachineACafé(HardwareDéfaillant())
+        machine = (MachineACaféBuilder()
+                   .défaillante()
+                   .build())
         somme_initiale = machine.somme_encaissée_en_centimes
 
         # QUAND on insère une somme supérieure ou égale à 1€
@@ -26,7 +29,7 @@ class ServiceTest(unittest.TestCase):
 
     def test_pas_assez_argent(self):
         # ETANT DONNE une machine à café
-        machine = MachineACafé(HardwareQuelconque())
+        machine = MachineACaféBuilder.par_defaut()
         somme_initiale = machine.somme_encaissée_en_centimes
         nombre_cafés_initiaux = machine.nombre_cafés_servis
 
@@ -50,7 +53,7 @@ class ServiceTest(unittest.TestCase):
         for pièces_a_insérer in cas:
             with self.subTest(pièces_a_insérer):
                 # ETANT DONNE une machine à café
-                machine = MachineACafé(HardwareQuelconque())
+                machine = MachineACaféBuilder.par_defaut()
                 somme_initiale = machine.somme_encaissée_en_centimes
                 nombre_cafés_initiaux = machine.nombre_cafés_servis
 
