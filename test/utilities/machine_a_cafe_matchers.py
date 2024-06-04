@@ -9,4 +9,7 @@ class MachineACaféMatchers(unittest.TestCase):
         self.assertEqual(attendu, machine.nombre_appels_a_couler_un_café())
 
     def assertAucuneSommeEncaissée(self, machine: MachineACaféHarness):
-        self.assertEqual(0, machine.get_delta_argent_encaissé())
+        self.assertSommeEncaissée(0, machine)
+
+    def assertSommeEncaissée(self, somme, machine: MachineACaféHarness):
+        self.assertEqual(somme, machine.get_delta_argent_encaissé())

@@ -2,16 +2,12 @@ import itertools
 import random
 import unittest
 
-from machine_a_café import MachineACafé
 from pièce import Pièce
 from functools import reduce
 from operator import add
 
-from utilities.hardware_spy import HardwareSpy
-from utilities.hardware_stub import HardwareStub
 from utilities.machine_a_cafe_matchers import MachineACaféMatchers
 from utilities.machine_a_café_builder import MachineACaféBuilder
-from utilities.machine_a_café_harness import MachineACaféHarness
 
 
 class ServiceTest(MachineACaféMatchers):
@@ -53,9 +49,7 @@ class ServiceTest(MachineACaféMatchers):
         for pièces_a_insérer in cas:
             with self.subTest(pièces_a_insérer):
                 # ETANT DONNE une machine à café
-                hardware = HardwareSpy(HardwareStub())
-                machine = MachineACafé(hardware)
-                somme_initiale = machine.get_somme_encaissée_en_centimes()
+                machine = MachineACaféBuilder.par_defaut()
 
                 # QUAND on insère une somme supérieure ou égale à 1€, <n> fois
                 for pièce in pièces_a_insérer:
@@ -63,11 +57,11 @@ class ServiceTest(MachineACaféMatchers):
 
                 # ALORS l'ordre de couler un café est envoyé <n> fois
                 nombre_cafés_servis = len(pièces_a_insérer)
-                self.assertNombreCafésServis(nombre_cafés_servis, hardware)
+                self.assertNombreCafésServis(nombre_cafés_servis, machine)
 
                 # ET le monnayeur contient l'argent
                 somme_totale = reduce(add, pièces_a_insérer)
-                self.assertEqual(somme_totale, machine.get_somme_encaissée_en_centimes() - somme_initiale)
+                self.assertSommeEncaissée(somme_totale, machine)
 
 
 if __name__ == '__main__':
