@@ -15,10 +15,10 @@ class MachineACaféBuilder:
     def par_defaut(cls):
         return MachineACaféBuilder().build()
 
-    def build(self) -> MachineACaféInterface:
+    def build(self) -> MachineACaféHarness:
         hardware = HardwareDummy() if self.__est_défaillante else HardwareStub()
         hardware_spy = HardwareSpy(hardware)
-        return MachineACaféHarness(MachineACafé(hardware_spy))
+        return MachineACaféHarness(MachineACafé(hardware_spy), hardware_spy)
 
     def défaillante(self) -> Self:
         self.__est_défaillante = True
