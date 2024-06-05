@@ -1,3 +1,4 @@
+from lecteur_cb_adapter.lecteur_cb_adapter import LecteurCbAdapter
 from lecteur_cb_interface import AucunLecteurCb
 from machine_a_café import MachineACafé
 from utilities.fake_lecteur_cb import FakeLecteurCb
@@ -7,6 +8,7 @@ from utilities.hardware_stub import HardwareStub
 from typing import Self
 
 from utilities.machine_a_café_harness import MachineACaféHarness
+from utilities.test_environment import TestEnvironment
 
 
 class MachineACaféBuilder:
@@ -17,11 +19,15 @@ class MachineACaféBuilder:
     def par_defaut(cls):
         return MachineACaféBuilder().build()
 
+    @staticmethod
+    def _lecteur_cb_test():
+        return LecteurCbAdapter() if TestEnvironment.est_integration else FakeLecteurCb()
+
     def build(self) -> MachineACaféHarness:
         hardware = HardwareDummy() if self.__est_défaillante else HardwareStub()
         hardware_spy = HardwareSpy(hardware)
 
-        lecteur_cb = FakeLecteurCb() if self.__avec_lecteur_cb else AucunLecteurCb()
+        lecteur_cb = self._lecteur_cb_test() if self.__avec_lecteur_cb else AucunLecteurCb()
         return MachineACaféHarness(MachineACafé(hardware_spy, lecteur_cb), hardware_spy, lecteur_cb)
 
     def défaillante(self) -> Self:
